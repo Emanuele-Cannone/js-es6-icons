@@ -1,0 +1,63 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header .top{
+    color: #1fa6dc;
+    font-family: 'Acme', sans-serif;
+    height: 70px;
+    padding-left: 10px;
+    padding-top: 10px;
+    font-size: 25px;
+}
+
+.jumbotron{
+    height: 70px;
+    background-color: #1fa6dc;
+    font-size: 15;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+.jumbotron select{
+    margin-left: 10px;
+}
+
+.contenitore{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    height: 100vh;
+    background-color: #dddddf;
+}
+
+.riquadro{
+    width: calc(100% / 5);
+    text-transform: uppercase;
+    font-size: 20px;
+    text-align: center;
+    background-color: #f6f6f6;
+    border-radius: 5px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 10px 2px;
+}
+
+.blue{
+    color: blue;
+}
+
+.orange{
+    color: orange;
+}
+
+.viola{
+    color: violet;
+}
