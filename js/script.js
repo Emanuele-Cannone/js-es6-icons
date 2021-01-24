@@ -8,12 +8,6 @@
 $(document).ready(function(){
     const icons = [
         {
-            name: 'cat',
-            prefix: 'fa-',
-            type: 'animal',
-            family: 'fas',
-        },
-        {
             name: 'crow',
             prefix: 'fa-',
             type: 'animal',
@@ -96,93 +90,73 @@ $(document).ready(function(){
             prefix: 'fa-',
             type: 'user',
             family: 'fas',
-        },
-        {
-            name: 'user-secret',
-            prefix: 'fa-',
-            type: 'user',
-            family: 'fas',
         }
     ];
+   
+    const color = ['blue', 'orange', 'violet'];
 
     // crea un array prendendo il type degli oggetti -- mi serve che mi restituisca 1 sola volta i vari tipi
-
-    const typeIcone = [];
     
+    const typeIcons = takeTypes(icons);
+    console.log(typeIcons);
 
-    icons.forEach((element, type) => { // per ogni oggetto presente in icons
-        if (!typeIcone.includes(element.type)){ // se il type in (type dell'array icons) non è incluso nell'array typeIcone
-            typeIcone.push(element.type); // allora pushalo
+    // aggiungi la proprietà colore negli oggetti di icons
+    const addColori = icons.map((element, index)    =>  {  //in questo modo aggiungo una nuova proprietà negli oggetti dell'array icons 
+    
+    
+        // IN QUESTO MODO AGGIUNGO LA STESSA A TUTTI        
+        //     return  {...element, 
+        //             colore : 'colore1'}; 
+        // });
+
+
+        // PRENDO L'INDEX DELL'ARRAY COLORI E LO ASSEGNO A CASCATA
+
+        const indexMaledetto = typeIcons.indexOf((element.type)); //prendo gli index di tipo di icone
+
+        return {...element, // pusho ad ogni oggetto 
+            colore: color[indexMaledetto] // colore : l'index crescente per ogni differente elemento TYPE
         };
+        
     });
+        
 
+    // console.log(addColori);
 
-    // console.log(typeIcone);// vedi se non esplode il mondo
+    // inserisci i type nelle option per farli visualizzare nel select
 
+    typeIcons.forEach((element)=>{
 
-
-    const addColore = icons.map((element, index) => { // cosi creo un nuovo array aggiungendo la proprietà che mi interessa
-        let tipoColore = 'blue';
-        if ( element.type == 'vegetable'){
-            tipoColore = 'orange'
-        } else if (element.type == 'user'){
-            tipoColore = 'viola'
-        }// cosi decido quale colore inserirein ogni oggetto
-        return {...element, 
-            colore: tipoColore
-        };
-    });
-
-    // console.log(addColore);// cosi vedo tutto
-
-    const posizioneHtml = $('.contenitore');// in questo modo salvo la posizione dell'html in una const in modo da poterla riutilizzare
-    
-    addColore.forEach((element)=> { // per ogni elemento dell'array
-
-        const {family, prefix, name, colore} = element; //prendi queste proprietà
-    
-        // console.log(element);// vedi se è vero
-
-        posizioneHtml.append( // aggiungi il testo alla posizione html (posizioneHtml)
+        $('#selettore').append(
             `
-            <div class="riquadro">
-                <i class="${family} ${prefix}${name} ${colore}"></i>
-                <p>${name}</p>
-            </div>
+                <option value="${element}">${element}</option>
             `
         );
 
     });
-
     
-    // in questo modo aggiungo le voci che mi interessano nel selettore
-    $('#selettore').append(`
-    <option value="${typeIcone[0]}">${typeIcone[0]}</option>
-    <option value="${typeIcone[1]}">${typeIcone[1]}</option>
-    <option value="${typeIcone[2]}">${typeIcone[2]}</option>
-    `);
+    // fai in modo che quando viene selezionato un selettore per ogni type vengano visualizzate in HTML icone dello stesso tipo 
     
+    $('#selettore').change(function (){
+        let riferimentoHTML = $('.contenitore');
+        const tipoSelezionato = $(this).val();
+        // const iconePerTipo = addColori.filter((element, type) =>  {
+        //     return element.type == tipoSelezionato;
+        // });
+        // if (tipoSelezionato != 'All'){
+        //     alert('sei nell\'if');
+        //     stampa(addColori, riferimentoHTML);
+        // }
+        // stampa(iconePerTipo, riferimentoHTML);
 
-    
+        const selezioneFiltrata = filtroIcone(addColori, tipoSelezionato);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        stampa(selezioneFiltrata, riferimentoHTML);
 
 
+        
 
-
+    });
 
 
 
@@ -192,7 +166,57 @@ $(document).ready(function(){
 });
 
 
-function stampo(array){ 
-    return 
 
+// funzioni
+
+function takeTypes(array){
+
+    const arrayNuovo = [];
+
+    array.forEach((element) => { // per ogni oggetto presente in icons
+        if (!arrayNuovo.includes(element.type)){ // se il type in (type dell'array icons) non è incluso nell'array typeIcone
+            arrayNuovo.push(element.type); // allora pushalo
+        };
+    });
+
+    return arrayNuovo;
 };
+
+
+function stampa(array, riferimentoHTML){
+    riferimentoHTML.html('');
+    array.forEach((element) => {// prendi l'array addColori perchè la proprietà colore esiste solo in questo array
+
+
+        const { family, prefix, name, colore } = element;// in questo modo vado a destrutturare gli oggetti dell'array per prendermi direttamente le opzioni
+
+
+        riferimentoHTML.append(
+
+            `
+                            <div class="riquadro">
+                                <i class="${family} ${prefix}${name} ${colore}"></i>
+                                <p>${name}</p>
+                            </div>
+                        `
+
+        );
+
+    });
+};
+
+function filtroIcone(array, type){
+    const nuovoArray = array.filter((element)=>{
+
+        return element.type == type;
+
+    });
+    if (nuovoArray.length > 0){
+        return nuovoArray;
+    }
+
+    return array;
+
+    
+};
+
