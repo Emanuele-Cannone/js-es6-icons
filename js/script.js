@@ -136,6 +136,10 @@ $(document).ready(function(){
     });
     
     // fai in modo che quando viene selezionato un selettore per ogni type vengano visualizzate in HTML icone dello stesso tipo 
+
+    let riferimentoHTML = $('.contenitore');
+    stampa(addColori, riferimentoHTML);
+   
     
     $('#selettore').change(function (){
         let riferimentoHTML = $('.contenitore');
@@ -151,15 +155,11 @@ $(document).ready(function(){
 
         const selezioneFiltrata = filtroIcone(addColori, tipoSelezionato);
 
-        stampa(selezioneFiltrata, riferimentoHTML);
-
-
         
-
+        stampa(selezioneFiltrata, riferimentoHTML);
+        
     });
-
-
-
+    
 
 
 
@@ -194,11 +194,11 @@ function stampa(array, riferimentoHTML){
         riferimentoHTML.append(
 
             `
-                            <div class="riquadro">
-                                <i class="${family} ${prefix}${name} ${colore}"></i>
-                                <p>${name}</p>
-                            </div>
-                        `
+                <div class="riquadro">
+                    <i class="${family} ${prefix}${name} ${colore}"></i>
+                    <p>${name}</p>
+                </div>
+            `
 
         );
 
@@ -213,10 +213,8 @@ function filtroIcone(array, type){
     });
     if (nuovoArray.length > 0){
         return nuovoArray;
-    }
-
+    } 
     return array;
-
     
 };
 
